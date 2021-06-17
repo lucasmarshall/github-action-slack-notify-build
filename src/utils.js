@@ -1,13 +1,12 @@
 const { context } = require('@actions/github');
 
 function buildSlackAttachments({ status, color, github }) {
-  const { payload, ref, workflow, eventName } = github.context;
+  const { payload, ref, workflow, eventName, job, runId, runNumber } = github.context;
   const { owner, repo } = context.repo;
   const event = eventName;
   const branch = event === 'pull_request' ? payload.pull_request.head.ref : ref.replace('refs/heads/', '');
 
   const sha = event === 'pull_request' ? payload.pull_request.head.sha : github.context.sha;
-  const runId = parseInt(process.env.GITHUB_RUN_ID, 10);
 
   const referenceLink =
     event === 'pull_request'
@@ -32,13 +31,18 @@ function buildSlackAttachments({ status, color, github }) {
           short: true,
         },
         {
-          title: 'Workflow',
-          value: `<https://github.com/${owner}/${repo}/actions/runs/${runId} | ${workflow}>`,
+          title: 'Status',
+          value: status,
           short: true,
         },
         {
-          title: 'Status',
-          value: status,
+          title: 'Workflow',
+          value: `<https://github.com/${owner}/${repo}/actions/runs/${runId} | ${workflow}> / <https://github.com/${owner}/${repo}/runs/${runNumber} | ${job}>`,
+          short: true,
+        },
+        {
+          title: 'Job',
+          value: `<https://github.com/${owner}/${repo}/actions/runs/${runId} | ${workflow}> / <https://github.com/${owner}/${repo}/runs/${runNumber} | ${job}>`,
           short: true,
         },
         referenceLink,
