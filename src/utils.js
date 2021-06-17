@@ -37,12 +37,12 @@ function buildSlackAttachments({ status, color, github }) {
         },
         {
           title: 'Workflow',
-          value: `<https://github.com/${owner}/${repo}/actions/runs/${runId} | ${workflow}> / <https://github.com/${owner}/${repo}/runs/${runNumber} | ${job}>`,
+          value: `<https://github.com/${owner}/${repo}/actions/runs/${runId} | ${workflow}>`,
           short: true,
         },
         {
           title: 'Job',
-          value: `<https://github.com/${owner}/${repo}/actions/runs/${runId} | ${workflow}> / <https://github.com/${owner}/${repo}/runs/${runNumber} | ${job}>`,
+          value: `<https://github.com/${owner}/${repo}/runs/${runNumber} | ${job}>`,
           short: true,
         },
         referenceLink,
